@@ -1,11 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+
+import {
+  StackNavigator,
+  TabNavigator,
+  TabBarBottom
+} from 'react-navigation';
 
 import HomeScreen from './src/screens/HomeScreen';
 import DetailsScreen from './src/screens/DetailsScreen';
+import ModalScreen from './src/screens/ModalScreen';
+import TabNavigatorScreen from './src/screens/TabNavigatorScreen';
 
-const RootStack = StackNavigator(
+const MainStack = StackNavigator(
   {
     Home: {
       screen: HomeScreen
@@ -27,6 +39,26 @@ const RootStack = StackNavigator(
     }
   }
 )
+
+const RootStack = StackNavigator(
+  {
+    Main: {
+      screen: MainStack
+    },
+    Modal: {
+      screen: ModalScreen
+    }
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none'
+  }
+)
+
+const RootTab = TabNavigator({
+  Home: { screen: RootStack },
+  Settings: { screen: TabNavigatorScreen }
+})
 
 export default class App extends React.Component {
   render() {

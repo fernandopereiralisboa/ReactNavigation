@@ -19,14 +19,36 @@ class Logo extends Component {
 }
 
 class HomeScreen extends Component {
-	static navigationOptions = {
-		title: 'Home',
-		headerRight: (
-			<Button
-				onPress={() => alert('Button header')}
-				title="Info"
-			/>
-		)
+	static navigationOptions = ({ navigation }) => {
+		const params = navigation.state.params || {};
+
+		return {
+			headerLeft: (
+				<Button
+					onPress={() => navigation.navigate('Modal')}
+					title="Modal"
+				/>
+			),
+			title: 'Home',
+			headerRight: (
+				<Button
+					onPress={params.increaseCount}
+					title="+1"
+				/>
+			)
+		}		
+	};
+
+	componentWillMount() {
+		this.props.navigation.setParams({ increaseCount: this._increaseCount });
+	}
+
+	state = {
+		count: 0
+	};
+
+	_increaseCount = () => {
+		this.setState({ count: this.state.count + 1 });
 	};
 
 	render() {
@@ -34,6 +56,7 @@ class HomeScreen extends Component {
 			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 				<Logo />
 				<Text>Home Screen</Text>
+				<Text>{this.state.count}</Text>
 				<Button
 					title="Go to Details"
 					onPress={
